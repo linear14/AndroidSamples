@@ -63,6 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="3"
+        android:scrollbars="vertical"
         tools:listitem="@layout/item_image"/>
 
 

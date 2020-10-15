@@ -9,8 +9,6 @@ import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.dongldh.carrotimagepickerexample.adapter.ImageAdapter
@@ -18,9 +16,6 @@ import com.dongldh.carrotimagepickerexample.permission.Permission.haveStoragePer
 import com.dongldh.carrotimagepickerexample.permission.Permission.requestPermission
 import com.dongldh.carrotimagepickerexample.viewModel.ImageViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_image.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var imageViewModel: ImageViewModel
+    private lateinit var imageAdapter: ImageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             ViewModelProvider.AndroidViewModelFactory(application)
         ).get(ImageViewModel::class.java)
 
-        val imageAdapter = ImageAdapter()
+        imageAdapter = ImageAdapter()
             .also { recycler.adapter = it }
             .apply {
                 setOnImageClickListener(object: ImageAdapter.OnImageClickListener {
@@ -56,23 +52,21 @@ class MainActivity : AppCompatActivity() {
                 })
             }
 
-        imageViewModel.images.observe(this) { result ->
-            imageAdapter.submitList(result)
-        }
-
         openMediaStore()
     }
 
     private fun openMediaStore() {
         if(haveStoragePermission()) {
-            showImages()
+            observeImages()
         } else {
             requestPermission(this)
         }
     }
 
-    private fun showImages() {
-        GlobalScope.launch { imageViewModel.queryImages() }
+    private fun observeImages() {
+        imageViewModel.images.observe(this) { result ->
+            imageAdapter.submitList(result)
+        }
     }
 
     private fun goToSettings() {
@@ -93,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         when(requestCode) {
             READ_EXTERNAL_STORAGE_REQUEST -> {
                 if(grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
-                    showImages()
+                    observeImages()
                 } else {
                     val showRationale =
                         ActivityCompat.shouldShowRequestPermissionRationale(
