@@ -65,7 +65,7 @@ class ImageDataSource(private val contentResolver: ContentResolver): PositionalD
                         id.toString()
                     )
 
-                    val image = MediaStoreImage(id, dateTaken, uri)
+                    val image = MediaStoreImage(id, dateTaken, uri.toString())
                     imageList += image
 
                     Log.d("IMAGE_INFO", image.toString())

@@ -4,14 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.dongldh.carrotimagepickerexample.adapter.ImageAdapter
+import com.dongldh.carrotimagepickerexample.data.MediaStoreImage
 import com.dongldh.carrotimagepickerexample.permission.Permission.haveStoragePermission
 import com.dongldh.carrotimagepickerexample.permission.Permission.requestPermission
 import com.dongldh.carrotimagepickerexample.viewModel.ImageViewModel
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
+        const val READ_EXTERNAL_STORAGE_REQUEST = 0x1001
     }
 
     private lateinit var imageViewModel: ImageViewModel
@@ -39,14 +39,14 @@ class MainActivity : AppCompatActivity() {
             .also { recycler.adapter = it }
             .apply {
                 setOnImageClickListener(object: ImageAdapter.OnImageClickListener {
-                    override fun onClickImageLayout(uri: Uri) {
+                    override fun onClickImageLayout(uri: String) {
                         Intent(this@MainActivity, ImageActivity::class.java)
-                            .apply { putExtra("uri", uri.toString()) }
+                            .apply { putExtra("uri", uri) }
                             .also { startActivity(it) }
                     }
 
-                    override fun onClickImageBadge() {
-                        Toast.makeText(this@MainActivity, "Not yet implemented", Toast.LENGTH_SHORT).show()
+                    override fun onClickImageBadge(image: MediaStoreImage) {
+                        imageViewModel.addOrRemoveImageFromSelectedList(image)
                     }
 
                 })

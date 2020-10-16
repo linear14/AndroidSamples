@@ -7,6 +7,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    buildFeatures {
+        dataBinding true
+    }
+
     defaultConfig {
         applicationId "com.dongldh.carrotimagepickerexample"
         minSdkVersion 23
