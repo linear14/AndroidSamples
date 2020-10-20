@@ -6,6 +6,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import com.dongldh.carrotimagepickerexample.adapter.ImageAdapter
 import com.dongldh.carrotimagepickerexample.data.MediaStoreImage
 import com.dongldh.carrotimagepickerexample.permission.Permission.haveStoragePermission
 import com.dongldh.carrotimagepickerexample.permission.Permission.requestPermission
+import com.dongldh.carrotimagepickerexample.util.App
 import com.dongldh.carrotimagepickerexample.viewModel.ImageViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var imageViewModel: ImageViewModel
     private lateinit var imageAdapter: ImageAdapter
+
+    var totalImageSize: Int? = null
+    var selectedPosition: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +44,10 @@ class MainActivity : AppCompatActivity() {
             .also { recycler.adapter = it }
             .apply {
                 setOnImageClickListener(object: ImageAdapter.OnImageClickListener {
-                    override fun onClickImageLayout(uri: String) {
-                        Intent(this@MainActivity, ImageActivity::class.java)
-                            .apply { putExtra("uri", uri) }
-                            .also { startActivity(it) }
+                    override fun onClickImageLayout(position: Int) {
+                        selectedPosition = position
+                        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ImageFragment()).commitAllowingStateLoss()
+                        frame_layout.visibility = View.VISIBLE
                     }
 
                     override fun onClickImageBadge(image: MediaStoreImage) {
@@ -64,8 +69,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeImages() {
+        imageViewModel.getImageList()
         imageViewModel.images.observe(this) { result ->
             imageAdapter.submitList(result)
+            totalImageSize = result.size
         }
     }
 
@@ -77,6 +84,14 @@ class MainActivity : AppCompatActivity() {
             addCategory(Intent.CATEGORY_DEFAULT)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }.also { startActivity(it) }
+    }
+
+    override fun onBackPressed() {
+        if(frame_layout.visibility == View.VISIBLE) {
+            frame_layout.visibility = View.GONE
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onRequestPermissionsResult(

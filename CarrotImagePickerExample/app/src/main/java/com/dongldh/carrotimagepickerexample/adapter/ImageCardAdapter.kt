@@ -3,19 +3,19 @@ package com.dongldh.carrotimagepickerexample.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dongldh.carrotimagepickerexample.R
 import com.dongldh.carrotimagepickerexample.data.MediaStoreImage
-import com.dongldh.carrotimagepickerexample.databinding.ItemImageBinding
+import com.dongldh.carrotimagepickerexample.databinding.ItemImageCardBinding
 
-class ImageAdapter: PagedListAdapter<MediaStoreImage, ImageAdapter.ImageViewHolder>(ImageDiffCallback()) {
+class ImageAdapter: ListAdapter<MediaStoreImage, ImageAdapter.ImageViewHolder>(ImageDiffCallback()) {
     private var imageClickListener: OnImageClickListener? = null
     val selectedImages = mutableListOf<MediaStoreImage>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        return ImageViewHolder(ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ImageViewHolder(ItemImageCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
@@ -23,13 +23,13 @@ class ImageAdapter: PagedListAdapter<MediaStoreImage, ImageAdapter.ImageViewHold
         holder.bind(mediaStoreImage)
     }
 
-    inner class ImageViewHolder(val binding: ItemImageBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ImageViewHolder(val binding: ItemImageCardBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MediaStoreImage) {
             binding.apply {
                 mediaStoreImage = item
                 executePendingBindings()
 
-                layoutImage.setOnClickListener { imageClickListener?.onClickImageLayout(item.uri) }
+                layoutImage.setOnClickListener { imageClickListener?.onClickImageLayout(layoutPosition) }
                 layoutBadge.setOnClickListener { changeImageSelectedState(item) }
             }
             bindUI(item)
@@ -67,7 +67,7 @@ class ImageAdapter: PagedListAdapter<MediaStoreImage, ImageAdapter.ImageViewHold
     }
 
     interface OnImageClickListener {
-        fun onClickImageLayout(uri: String)
+        fun onClickImageLayout(position: Int)
         fun onClickImageBadge(image: MediaStoreImage)
     }
 
