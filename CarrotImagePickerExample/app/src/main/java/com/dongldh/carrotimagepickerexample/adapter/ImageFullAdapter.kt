@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.Target
 import com.dongldh.carrotimagepickerexample.R
 import com.dongldh.carrotimagepickerexample.data.MediaStoreImage
 import kotlinx.android.synthetic.main.item_image_full.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ImageFullAdapter: ListAdapter<MediaStoreImage, ImageFullAdapter.ImageFullViewHolder>(ImageDiffCallback()) {
@@ -23,9 +27,16 @@ class ImageFullAdapter: ListAdapter<MediaStoreImage, ImageFullAdapter.ImageFullV
      override fun onBindViewHolder(holder: ImageFullViewHolder, position: Int) {
          val item = getItem(position)!!
 
-         Glide.with(holder.itemView)
-             .load(item.uri)
-             .into(holder.image)
+         GlobalScope.launch(Dispatchers.IO) {
+             val builder = Glide.with(holder.itemView)
+                 .load(item.uri)
+                 .override(Target.SIZE_ORIGINAL)
+
+             GlobalScope.launch(Dispatchers.Main) {
+                 builder.into(holder.image)
+             }
+         }
+
      }
 
      inner class ImageFullViewHolder(view: View): RecyclerView.ViewHolder(view) {
