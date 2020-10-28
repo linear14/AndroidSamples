@@ -18,7 +18,8 @@ import java.util.*
 class ImageViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val images: MutableLiveData<List<MediaStoreImage>> = MutableLiveData()
-    val selectedImages = mutableListOf<MediaStoreImage>()
+    val selectedImagesLiveData: MutableLiveData<List<MediaStoreImage>> = MutableLiveData()
+    private val selectedImages = mutableListOf<MediaStoreImage>()
 
     fun getImageList() {
         GlobalScope.launch {
@@ -33,6 +34,7 @@ class ImageViewModel(private val app: Application) : AndroidViewModel(app) {
         } else {
             selectedImages.add(image)
         }
+        selectedImagesLiveData.value = selectedImages
     }
 
     private suspend fun queryImages(contentResolver: ContentResolver): MutableList<MediaStoreImage>{

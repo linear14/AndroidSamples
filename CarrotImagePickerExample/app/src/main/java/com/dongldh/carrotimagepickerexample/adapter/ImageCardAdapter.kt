@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dongldh.carrotimagepickerexample.R
+import com.dongldh.carrotimagepickerexample.`interface`.OnImageClickListener
 import com.dongldh.carrotimagepickerexample.data.MediaStoreImage
 import com.dongldh.carrotimagepickerexample.databinding.ItemImageCardBinding
 
 class ImageAdapter: ListAdapter<MediaStoreImage, ImageAdapter.ImageViewHolder>(ImageDiffCallback()) {
     private var imageClickListener: OnImageClickListener? = null
-    val selectedImages = mutableListOf<MediaStoreImage>()
+    var selectedImages = listOf<MediaStoreImage>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         return ImageViewHolder(ItemImageCardBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -30,21 +31,9 @@ class ImageAdapter: ListAdapter<MediaStoreImage, ImageAdapter.ImageViewHolder>(I
                 executePendingBindings()
 
                 layoutImage.setOnClickListener { imageClickListener?.onClickImageLayout(layoutPosition) }
-                layoutBadge.setOnClickListener { changeImageSelectedState(item) }
+                layoutBadge.setOnClickListener { imageClickListener?.onClickImageBadge(item) }
             }
             bindUI(item)
-        }
-
-
-        private fun changeImageSelectedState(mediaStoreImage: MediaStoreImage) {
-            if(mediaStoreImage in selectedImages) {
-                selectedImages.remove(mediaStoreImage)
-            } else {
-                selectedImages.add(mediaStoreImage)
-            }
-
-            notifyDataSetChanged()
-            imageClickListener?.onClickImageBadge(mediaStoreImage)
         }
 
         private fun bindUI(mediaStoreImage: MediaStoreImage) {
@@ -65,12 +54,6 @@ class ImageAdapter: ListAdapter<MediaStoreImage, ImageAdapter.ImageViewHolder>(I
     fun setOnImageClickListener(li: OnImageClickListener) {
         imageClickListener = li
     }
-
-    interface OnImageClickListener {
-        fun onClickImageLayout(position: Int)
-        fun onClickImageBadge(image: MediaStoreImage)
-    }
-
 }
 
 class ImageDiffCallback: DiffUtil.ItemCallback<MediaStoreImage>() {

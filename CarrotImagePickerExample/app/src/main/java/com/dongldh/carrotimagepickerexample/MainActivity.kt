@@ -11,13 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
+import com.dongldh.carrotimagepickerexample.`interface`.OnImageClickListener
 import com.dongldh.carrotimagepickerexample.adapter.ImageAdapter
+import com.dongldh.carrotimagepickerexample.adapter.ImageFullAdapter
 import com.dongldh.carrotimagepickerexample.data.MediaStoreImage
 import com.dongldh.carrotimagepickerexample.permission.Permission.haveStoragePermission
 import com.dongldh.carrotimagepickerexample.permission.Permission.requestPermission
 import com.dongldh.carrotimagepickerexample.util.App
 import com.dongldh.carrotimagepickerexample.viewModel.ImageViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_image_full.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var imageViewModel: ImageViewModel
     private lateinit var imageAdapter: ImageAdapter
+    private lateinit var imageFullAdapter: ImageFullAdapter
 
     var totalImageSize: Int? = null
     var selectedPosition: Int? = null
@@ -34,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        imageFullAdapter = ImageFullAdapter()
 
         imageViewModel = ViewModelProvider(
             this,
@@ -43,10 +49,10 @@ class MainActivity : AppCompatActivity() {
         imageAdapter = ImageAdapter()
             .also { recycler.adapter = it }
             .apply {
-                setOnImageClickListener(object: ImageAdapter.OnImageClickListener {
+                setOnImageClickListener(object: OnImageClickListener {
                     override fun onClickImageLayout(position: Int) {
                         selectedPosition = position
-                        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ImageFragment()).commitAllowingStateLoss()
+                        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, ImageFragment(imageFullAdapter)).commitAllowingStateLoss()
                         frame_layout.visibility = View.VISIBLE
                     }
 
@@ -63,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun openMediaStore() {
         if(haveStoragePermission()) {
             observeImages()
+            observeSelectedImages()
         } else {
             requestPermission(this)
         }
@@ -72,7 +79,17 @@ class MainActivity : AppCompatActivity() {
         imageViewModel.getImageList()
         imageViewModel.images.observe(this) { result ->
             imageAdapter.submitList(result)
+            imageFullAdapter.submitList(result)
             totalImageSize = result.size
+        }
+    }
+
+    private fun observeSelectedImages() {
+        imageViewModel.selectedImagesLiveData.observe(this) { result ->
+            imageAdapter.selectedImages = result
+            imageFullAdapter.selectedImages = result
+            imageAdapter.notifyDataSetChanged()
+            imageFullAdapter.notifyDataSetChanged()
         }
     }
 
@@ -103,6 +120,7 @@ class MainActivity : AppCompatActivity() {
             READ_EXTERNAL_STORAGE_REQUEST -> {
                 if(grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED) {
                     observeImages()
+                    observeSelectedImages()
                 } else {
                     val showRationale =
                         ActivityCompat.shouldShowRequestPermissionRationale(
