@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LottieExample</string>
+    <string name="on_off">버스 애니메이션 On/Off</string>
+</resources>
