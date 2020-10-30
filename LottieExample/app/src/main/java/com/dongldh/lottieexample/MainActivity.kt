@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var isChecked = false
     var switchOn = false
     var progress = 0.0f
 
@@ -26,6 +27,17 @@ class MainActivity : AppCompatActivity() {
                 lottie_switch.playAnimation()
             }
             switchOn = !switchOn
+        }
+
+        lottie_checkbox.setOnClickListener {
+            if(isChecked) {
+                lottie_checkbox.speed = -1f
+                lottie_checkbox.playAnimation()
+            } else {
+                lottie_checkbox.speed = 1f
+                lottie_checkbox.playAnimation()
+            }
+            isChecked = !isChecked
         }
 
     }
