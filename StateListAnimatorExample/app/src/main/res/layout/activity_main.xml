@@ -12,7 +12,23 @@
         android:layout_height="240dp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:foreground="@drawable/state_list_drawable_view1"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <!--<TextView
+        android:id="@+id/tv_current_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/view1"
+        app:layout_constraintEnd_toEndOf="@id/view1"
+        app:layout_constraintTop_toTopOf="@id/view1"
+        app:layout_constraintBottom_toBottomOf="@id/view1"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" />-->
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
