@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Default State (Rest/Start) -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Constraint
+            android:id="@+id/img_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/card"
+            app:layout_constraintTop_toTopOf="@id/card"
+            app:layout_constraintEnd_toStartOf="parent"/>
+
+        <Constraint
+            android:id="@+id/img_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/card"
+            app:layout_constraintTop_toTopOf="@id/card"
+            app:layout_constraintStart_toEndOf="parent" />
+    </ConstraintSet>
+
+
+    <!-- Left Swipe End -->
+    <ConstraintSet android:id="@+id/end1">
+        <Constraint
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp" />
+
+
+        <Constraint
+            android:id="@+id/img_archive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/card"
+            app:layout_constraintTop_toTopOf="@id/card"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </ConstraintSet>
+
+
+    <!-- Right Swipe End -->
+    <ConstraintSet android:id="@+id/end2">
+        <Constraint
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"/>
+
+        <Constraint
+            android:id="@+id/img_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/card"
+            app:layout_constraintTop_toTopOf="@id/card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/card"/>
+
+    </ConstraintSet>
+
+    <!-- Left Swipe Motion -->
+    <Transition
+        android:id="@+id/trans_left"
+        app:constraintSetEnd="@id/end1"
+        app:constraintSetStart="@id/start">
+
+        <OnSwipe
+            app:dragDirection="dragLeft"
+            app:touchAnchorId="@id/card"
+            app:touchAnchorSide="right"/>
+    </Transition>
+
+    <!-- Right Swipe Motion -->
+    <Transition
+        android:id="@+id/trans_right"
+        app:constraintSetEnd="@id/end2"
+        app:constraintSetStart="@id/start">
+
+        <OnSwipe
+            app:dragDirection="dragRight"
+            app:touchAnchorId="@id/card"
+            app:touchAnchorSide="left"/>
+    </Transition>
+
+
+</MotionScene>

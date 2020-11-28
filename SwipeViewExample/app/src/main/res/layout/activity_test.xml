@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:id="@+id/motion_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutDescription="@xml/motion_layout_scene"
+    tools:context=".TestActivity">
+
+    <TextView
+        android:id="@+id/default_text"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:gravity="center_vertical"
+        android:background="#DC65F1"
+        android:maxLines="1"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp"
+        android:text="Swipe Left or Right"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_delete"
+        android:padding="12dp"
+        android:background="#CDDC39"/>
+
+    <ImageView
+        android:id="@+id/img_archive"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_archive"
+        android:padding="12dp"
+        android:background="#00BCD4"/>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

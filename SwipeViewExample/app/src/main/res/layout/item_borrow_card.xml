@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    app:layoutDescription="@xml/motion_item_borrow_card">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="false"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/book_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이것이 자바다"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/book_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="저자 - 신용권"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/book_name"
+                app:layout_constraintTop_toBottomOf="@id/book_name" />
+
+            <TextView
+                android:id="@+id/book_publisher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="출판사 - 한빛미디어"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/book_name"
+                app:layout_constraintTop_toBottomOf="@id/book_author" />
+
+            <com.mikhaellopez.circleview.CircleView
+                android:id="@+id/user_profile"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:cv_color="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/user_name"
+                app:layout_constraintEnd_toStartOf="@id/user_name"
+                app:layout_constraintTop_toTopOf="@id/user_name" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이동현"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/user_job"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/user_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대학생"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/user_name" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_delete"
+        android:padding="12dp"
+        android:background="#C80000"/>
+
+    <ImageView
+        android:id="@+id/img_archive"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/icon_archive"
+        android:padding="12dp"
+        android:background="#00C800"/>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>
