@@ -18,7 +18,10 @@ class MainActivity : AppCompatActivity() {
     companion object {
         val donateList = mutableListOf<Donate>().apply {
             for(i in 0 until 10) {
-                add(Donate(i.toLong()))
+                add(Donate(
+                    User("이동현", "직업", R.color.colorAccent),
+                    Book("제목", "저자", "출판사")
+                ))
             }
         }
     }
