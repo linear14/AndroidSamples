@@ -10,14 +10,12 @@
             android:layout_height="wrap_content"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <Constraint
             android:id="@+id/img_delete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/card"
             app:layout_constraintTop_toTopOf="@id/card"
             app:layout_constraintEnd_toStartOf="parent"/>
@@ -25,7 +23,7 @@
         <Constraint
             android:id="@+id/img_archive"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/card"
             app:layout_constraintTop_toTopOf="@id/card"
             app:layout_constraintStart_toEndOf="parent" />
@@ -38,15 +36,16 @@
             android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="48dp" />
+            android:layout_marginEnd="300dp" />
 
 
         <Constraint
             android:id="@+id/img_archive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/card"
             app:layout_constraintTop_toTopOf="@id/card"
+            app:layout_constraintStart_toEndOf="@id/card"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </ConstraintSet>
@@ -62,8 +61,8 @@
 
         <Constraint
             android:id="@+id/img_delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@id/card"
             app:layout_constraintTop_toTopOf="@id/card"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,9 +77,12 @@
         app:constraintSetStart="@id/start">
 
         <OnSwipe
+            app:dragDirection="dragLeft" />
+
+        <!--<OnSwipe
             app:dragDirection="dragLeft"
             app:touchAnchorId="@id/card"
-            app:touchAnchorSide="right"/>
+            app:touchAnchorSide="right"/>-->
     </Transition>
 
     <!-- Right Swipe Motion -->
@@ -90,9 +92,12 @@
         app:constraintSetStart="@id/start">
 
         <OnSwipe
+            app:dragDirection="dragRight" />
+
+        <!--<OnSwipe
             app:dragDirection="dragRight"
             app:touchAnchorId="@id/card"
-            app:touchAnchorSide="left"/>
+            app:touchAnchorSide="left"/>-->
     </Transition>
 
 
